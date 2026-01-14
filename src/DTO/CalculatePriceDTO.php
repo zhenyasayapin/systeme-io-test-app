@@ -9,4 +9,7 @@ class CalculatePriceDTO
     #[Assert\NotBlank(message: "You must provide a product id")]
     #[Assert\Positive]
     public int $product;
+
+    #[Assert\Length(max: 255)]
+    public ?string $taxNumber = null;
 }

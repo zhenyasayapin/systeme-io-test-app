@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\DTO\CalculatePriceDTO;
-use App\Entity\Product;
+use App\Entity\TaxNumber;
 use App\Repository\ProductRepository;
+use App\Repository\TaxNumberRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class PriceController extends AbstractController
 {
     #[Route('/calculate-price', name: 'app_calculate_price')]
-    public function calculate(Request $request, SerializerInterface $serializer, ProductRepository $productRepository, ValidatorInterface $validator): JsonResponse
+    public function calculate(Request $request, SerializerInterface $serializer, ProductRepository $productRepository, ValidatorInterface $validator, TaxNumberRepository $taxNumberRepository): JsonResponse
     {
         try {
             $dto = $serializer->deserialize($request->getContent(), CalculatePriceDTO::class, 'json');
@@ -32,9 +33,25 @@ final class PriceController extends AbstractController
         $product = $productRepository->find($dto->product);
 
         if (null === $product) {
-            throw $this->createNotFoundException();
+            throw $this->createNotFoundException('Product not found');
         }
 
-        return $this->json($product->getBasePrice());
+        $calculatedPrice = $product->getBasePrice()->getAmount();
+
+        if (null !== $dto->taxNumber) {
+            /** @var TaxNumber|null $taxNumber */
+            $taxNumber = $taxNumberRepository->findByNumber($dto->taxNumber);
+
+            if (null === $taxNumber) {
+                throw $this->createNotFoundException('Tax not found');
+            }
+
+            $calculatedPrice = $calculatedPrice + ($calculatedPrice * $taxNumber->getTax()->getAmount());
+        }
+
+        return $this->json([
+            'amount' => $calculatedPrice,
+            'currency' => $product->getBasePrice()->getCurrency(),
+        ]);
     }
 }

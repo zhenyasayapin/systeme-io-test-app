@@ -43,5 +43,6 @@ phpunit:
 	${DC_EXEC} bin/console doctrine:database:drop --force --env=test > /dev/null 2>&1
 	${DC_EXEC} bin/console d:d:c --env=test > /dev/null 2>&1
 	${DC_EXEC} bin/console d:s:c --env=test > /dev/null 2>&1
+	${DC_EXEC} bin/console d:f:l --env=test --no-interaction > /dev/null 2>&1
 	${DC_EXEC} bin/phpunit
 
