@@ -39,6 +39,9 @@ success-message:
 	@echo "You can now access the application at http://localhost:8337"
 	@echo "Good luck! 🚀"
 
-php-unit:
+phpunit:
+	${DC_EXEC} bin/console doctrine:database:drop --force --env=test > /dev/null 2>&1
+	${DC_EXEC} bin/console d:d:c --env=test > /dev/null 2>&1
+	${DC_EXEC} bin/console d:s:c --env=test > /dev/null 2>&1
 	${DC_EXEC} bin/phpunit
 
