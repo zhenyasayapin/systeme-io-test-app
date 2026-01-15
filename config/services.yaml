@@ -27,5 +27,6 @@ services:
         arguments:
             $handlers: [
                 '@App\Service\PriceModifiers\TaxPriceModifier',
-                '@App\Service\PriceModifiers\CouponPriceModifier'
+                '@App\Service\PriceModifiers\FixedCouponPriceModifier',
+                '@App\Service\PriceModifiers\PercentCouponPriceModifier'
             ]

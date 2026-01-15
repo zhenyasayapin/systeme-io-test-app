@@ -9,7 +9,7 @@ use App\Enum\CouponFormatEnum;
 use App\Repository\CouponRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class CouponPriceModifier implements PriceModifierInterface
+class PercentCouponPriceModifier implements PriceModifierInterface
 {
     public function __construct(
         private CouponRepository $couponRepository
@@ -18,7 +18,7 @@ class CouponPriceModifier implements PriceModifierInterface
     }
     public function supports(CalculatePriceDTO $calculatePriceDto): bool
     {
-        return null !== $calculatePriceDto->couponCode;
+        return null !== $calculatePriceDto->couponCode && str_starts_with($calculatePriceDto->couponCode, CouponFormatEnum::PERCENT->value);
     }
 
     public function modify(PriceDTO $priceDto, CalculatePriceDTO $calculatePriceDto): void
@@ -30,10 +30,6 @@ class CouponPriceModifier implements PriceModifierInterface
             throw new NotFoundHttpException('Coupon not found');
         }
 
-        if ($coupon->getFormat() === CouponFormatEnum::PERCENT) {
-            $priceDto->amount = $priceDto->amount - ($priceDto->amount / 100 * $coupon->getAmount());
-        } else {
-            $priceDto->amount = $priceDto->amount - $coupon->getAmount();
-        }
+        $priceDto->amount = $priceDto->amount * (1 - $coupon->getAmount() / 100);
     }
 }
