@@ -5,40 +5,35 @@ namespace App\Service;
 use App\DTO\CalculatePriceDTO;
 use App\DTO\PriceDTO;
 use App\Repository\ProductRepository;
-use App\Service\PriceModifiers\CouponPriceModifier;
-use App\Service\PriceModifiers\TaxPriceModifier;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PriceCalculatorService
 {
     public function __construct(
         private ProductRepository $productRepository,
-        private CouponPriceModifier $couponPriceModifier,
-        private TaxPriceModifier $taxPriceModifier,
+        private iterable $handlers
     )
     {
     }
 
-    public function calculate(CalculatePriceDTO $dto): PriceDTO
+    public function calculate(CalculatePriceDTO $calculatedPriceDto): PriceDTO
     {
-        $product = $this->productRepository->find($dto->product);
+        $product = $this->productRepository->find($calculatedPriceDto->product);
 
         if (null === $product) {
             throw new NotFoundHttpException('Product not found');
         }
 
-        $calculatedPrice = new PriceDTO();
-        $calculatedPrice->amount = $product->getBasePrice()->getAmount();
-        $calculatedPrice->currency = $product->getBasePrice()->getCurrency();
+        $price = new PriceDTO();
+        $price->amount = $product->getBasePrice()->getAmount();
+        $price->currency = $product->getBasePrice()->getCurrency();
 
-        if ($this->taxPriceModifier->supports($dto)) {
-            $this->taxPriceModifier->modify($calculatedPrice, $dto);
+        foreach ($this->handlers as $handler) {
+            if ($handler->supports($calculatedPriceDto)) {
+                $handler->modify($price, $calculatedPriceDto);
+            }
         }
 
-        if ($this->couponPriceModifier->supports($dto)) {
-            $this->couponPriceModifier->modify($calculatedPrice, $dto);
-        }
-
-        return $calculatedPrice;
+        return $price;
     }
 }
