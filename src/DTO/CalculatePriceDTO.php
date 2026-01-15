@@ -12,4 +12,7 @@ class CalculatePriceDTO
 
     #[Assert\Length(max: 255)]
     public ?string $taxNumber = null;
+
+    #[Assert\Length(max: 255)]
+    public ?string $couponCode = null;
 }

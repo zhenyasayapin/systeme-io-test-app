@@ -15,4 +15,13 @@ class CouponRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Coupon::class);
     }
+
+    public function findByCode(string $code): ?Coupon
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->andWhere('concat(c.format, c.amount) = :code')
+            ->setParameter('code', $code);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

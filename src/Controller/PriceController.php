@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\DTO\CalculatePriceDTO;
+use App\Entity\Coupon;
 use App\Entity\TaxNumber;
+use App\Enum\CouponFormatEnum;
+use App\Repository\CouponRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TaxNumberRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,8 +19,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class PriceController extends AbstractController
 {
     #[Route('/calculate-price', name: 'app_calculate_price')]
-    public function calculate(Request $request, SerializerInterface $serializer, ProductRepository $productRepository, ValidatorInterface $validator, TaxNumberRepository $taxNumberRepository): JsonResponse
-    {
+    public function calculate(
+        Request             $request,
+        SerializerInterface $serializer,
+        ProductRepository   $productRepository,
+        ValidatorInterface  $validator,
+        TaxNumberRepository $taxNumberRepository,
+        CouponRepository    $couponRepository
+    ): JsonResponse {
         try {
             $dto = $serializer->deserialize($request->getContent(), CalculatePriceDTO::class, 'json');
         } catch (\Exception $exception) {
@@ -47,6 +56,21 @@ final class PriceController extends AbstractController
             }
 
             $calculatedPrice = $calculatedPrice + ($calculatedPrice * $taxNumber->getTax()->getAmount());
+        }
+
+        if (null !== $dto->couponCode) {
+            /** @var Coupon|null $coupon */
+            $coupon = $couponRepository->findByCode($dto->couponCode);
+
+            if (null === $coupon) {
+                throw $this->createNotFoundException('Coupon not found');
+            }
+
+            if ($coupon->getFormat() === CouponFormatEnum::PERCENT) {
+                $calculatedPrice = $calculatedPrice - ($calculatedPrice / 100 * $coupon->getAmount());
+            } else {
+                $calculatedPrice = $calculatedPrice - $coupon->getAmount();
+            }
         }
 
         return $this->json([

@@ -15,9 +15,12 @@ class CouponFixtures extends Fixture
             ['amount' => 10, 'format' => CouponFormatEnum::PERCENT],
             ['amount' => 25, 'format' => CouponFormatEnum::PERCENT],
             ['amount' => 30, 'format' => CouponFormatEnum::PERCENT],
+            ['amount' => 50, 'format' => CouponFormatEnum::PERCENT],
+
             ['amount' => 5, 'format' => CouponFormatEnum::FIXED],
             ['amount' => 10, 'format' => CouponFormatEnum::FIXED],
             ['amount' => 15, 'format' => CouponFormatEnum::FIXED],
+            ['amount' => 25, 'format' => CouponFormatEnum::FIXED],
         ])->create();
     }
 }
