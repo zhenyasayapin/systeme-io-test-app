@@ -18,6 +18,7 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         return [
             ProductFixtures::class,
             TaxFixtures::class,
+            CouponFixtures::class,
         ];
     }
 }
