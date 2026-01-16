@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\PriceModifiers;
+namespace App\Service\PriceModifier;
 
 use App\DTO\CalculatePriceDTO;
 use App\DTO\PriceDTO;

@@ -48,3 +48,9 @@ phpunit:
 
 cs-fix:
 	${DC_EXEC} vendor/bin/php-cs-fixer fix
+
+refresh:
+	${DC_EXEC} bin/console d:d:d --force
+	${DC_EXEC} bin/console d:d:c
+	${DC_EXEC} bin/console d:s:c
+	${DC_EXEC} bin/console d:f:l

@@ -12,7 +12,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     _instanceof:
-        App\Service\PaymentProcessors\PaymentProcessorInterface:
+        App\Service\PaymentProcessor\PaymentProcessorInterface:
             tags: [ 'app.payment_processor' ]
 
     # makes classes in src/ available to be used as services
@@ -30,12 +30,12 @@ services:
     App\Service\PriceCalculatorService:
         arguments:
             $handlers: [
-                '@App\Service\PriceModifiers\TaxPriceModifier',
-                '@App\Service\PriceModifiers\FixedCouponPriceModifier',
-                '@App\Service\PriceModifiers\PercentCouponPriceModifier'
+                '@App\Service\PriceModifier\TaxPriceModifier',
+                '@App\Service\PriceModifier\FixedCouponPriceModifier',
+                '@App\Service\PriceModifier\PercentCouponPriceModifier'
             ]
 
-    App\Service\PurchaseService:
+    App\Service\PaymentProcessorResolver:
         arguments:
             $processors: !tagged_iterator 'app.payment_processor'
 

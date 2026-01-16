@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\PaymentProcessors;
+namespace App\Service\PaymentProcessor;
 
 use App\DTO\PriceDTO;
 use App\DTO\PurchaseDTO;
