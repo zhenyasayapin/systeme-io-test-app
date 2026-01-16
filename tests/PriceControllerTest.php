@@ -25,7 +25,7 @@ class PriceControllerTest extends WebTestCase
             'basePrice' => ProductBasePriceFactory::createOne($basePrice),
         ]);
 
-        $client->jsonRequest('GET', '/calculate-price', [
+        $client->jsonRequest('POST', '/calculate-price', [
             'product' => $product->getId(),
             'taxNumber' => $taxNumber,
             'couponCode' => $couponCode,
