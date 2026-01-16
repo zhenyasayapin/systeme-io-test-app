@@ -21,20 +21,20 @@ final class PriceController extends AbstractController
         ValidatorInterface $validator,
         PriceCalculatorService $priceCalculatorService,
     ): JsonResponse {
-        try {
-            $dto = $serializer->deserialize($request->getContent(), CalculatePriceDTO::class, 'json');
-        } catch (\Exception $exception) {
-            return $this->json($exception->getMessage(), 400);
+        if (empty($request->getContent())) {
+            return $this->json('No data provided', 400);
         }
 
-        $violations = $validator->validate($dto);
+        $calculatePriceDto = $serializer->deserialize($request->getContent(), CalculatePriceDTO::class, 'json');
+
+        $violations = $validator->validate($calculatePriceDto);
 
         if (count($violations) > 0) {
             return $this->json($violations, 400);
         }
 
         try {
-            return $this->json($priceCalculatorService->calculate($dto));
+            return $this->json($priceCalculatorService->calculate($calculatePriceDto));
         } catch (NotFoundHttpException $exception) {
             return $this->json($exception->getMessage(), 400);
         }
