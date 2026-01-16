@@ -7,7 +7,6 @@ use App\Entity\Purchase;
 use App\Repository\ProductRepository;
 use App\Service\PaymentProcessors\PaymentProcessorInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PurchaseService
 {
@@ -55,7 +54,7 @@ class PurchaseService
 
             return $purchase;
         } else {
-            throw new BadRequestHttpException('Payment processor failed');
+            throw new \InvalidArgumentException('Payment processor failed');
         }
     }
 }

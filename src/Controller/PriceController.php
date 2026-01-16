@@ -22,7 +22,7 @@ final class PriceController extends AbstractController
         PriceCalculatorService $priceCalculatorService,
     ): JsonResponse {
         if (empty($request->getContent())) {
-            return $this->json('No data provided', 400);
+            throw new \InvalidArgumentException('No data provided');
         }
 
         $calculatePriceDto = $serializer->deserialize($request->getContent(), CalculatePriceDTO::class, 'json');
@@ -33,10 +33,6 @@ final class PriceController extends AbstractController
             return $this->json($violations, 400);
         }
 
-        try {
-            return $this->json($priceCalculatorService->calculate($calculatePriceDto));
-        } catch (NotFoundHttpException $exception) {
-            return $this->json($exception->getMessage(), 400);
-        }
+        return $this->json($priceCalculatorService->calculate($calculatePriceDto));
     }
 }

@@ -5,7 +5,6 @@ namespace App\Service;
 use App\DTO\CalculatePriceDTO;
 use App\DTO\PriceDTO;
 use App\Repository\ProductRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PriceCalculatorService
 {
@@ -20,7 +19,7 @@ class PriceCalculatorService
         $product = $this->productRepository->find($calculatedPriceDto->product);
 
         if (null === $product) {
-            throw new NotFoundHttpException('Product not found');
+            throw new \InvalidArgumentException('Product not found');
         }
 
         $price = new PriceDTO();

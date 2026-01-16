@@ -21,7 +21,7 @@ final class PurchaseController extends AbstractController
         PurchaseService $purchaseService,
     ): JsonResponse {
         if (empty($request->getContent())) {
-            return $this->json('No data provided', 400);
+            throw new \InvalidArgumentException('No data provided');
         }
 
         $dto = $serializer->deserialize($request->getContent(), PurchaseDTO::class, 'json');
@@ -32,10 +32,6 @@ final class PurchaseController extends AbstractController
             return $this->json($violations, 400);
         }
 
-        try {
-            return $this->json($purchaseService->purchase($dto), 201);
-        } catch (\Exception $exception) {
-            return $this->json($exception->getMessage(), 400);
-        }
+        return $this->json($purchaseService->purchase($dto), 201);
     }
 }
