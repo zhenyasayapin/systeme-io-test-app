@@ -35,7 +35,7 @@ final class ProductFactory extends PersistentProxyObjectFactory
     {
         return [
             'name' => self::faker()->word(255),
-            'basePrice' => ProductBasePriceFactory::new()
+            'basePrice' => ProductBasePriceFactory::new(),
         ];
     }
 

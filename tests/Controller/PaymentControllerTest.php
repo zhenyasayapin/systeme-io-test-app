@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class PaymentControllerTest extends WebTestCase
 {
-    #[DataProvider("successfullyPayProvider")]
+    #[DataProvider('successfullyPayProvider')]
     public function testSuccessfullyPay(array $json, float $price): void
     {
         self::ensureKernelShutdown();
@@ -34,22 +34,22 @@ final class PaymentControllerTest extends WebTestCase
     {
         yield [
             'json' => [
-                "product" => 1,
-                'taxNumber' => "FRAB123456789",
-                'couponCode' => "F25",
-                'paymentProcessor' => 'paypal'
+                'product' => 1,
+                'taxNumber' => 'FRAB123456789',
+                'couponCode' => 'F25',
+                'paymentProcessor' => 'paypal',
             ],
-            'price' => 95
+            'price' => 95,
         ];
 
         yield [
             'json' => [
-                "product" => 1,
-                'taxNumber' => "IT12345678901",
-                'couponCode' => "P10",
-                'paymentProcessor' => 'stripe'
+                'product' => 1,
+                'taxNumber' => 'IT12345678901',
+                'couponCode' => 'P10',
+                'paymentProcessor' => 'stripe',
             ],
-            'price' => 109.8
+            'price' => 109.8,
         ];
     }
 }

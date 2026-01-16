@@ -12,8 +12,7 @@ class TaxPriceModifier implements PriceModifierInterface
 {
     public function __construct(
         private TaxNumberRepository $taxNumberRepository,
-    )
-    {
+    ) {
     }
 
     public function supports(CalculatePriceDTO $calculatePriceDto): bool

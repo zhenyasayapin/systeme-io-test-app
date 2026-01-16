@@ -14,17 +14,17 @@ class ProductFixtures extends Fixture
     {
         $products = [
             [
-                'name' => "iPhone",
+                'name' => 'iPhone',
                 'amount' => 100,
                 'currency' => CurrencyEnum::EUR->value,
             ],
             [
-                'name' => "Headphones",
+                'name' => 'Headphones',
                 'amount' => 20,
                 'currency' => CurrencyEnum::EUR->value,
             ],
             [
-                'name' => "Phone Case",
+                'name' => 'Phone Case',
                 'amount' => 10,
                 'currency' => CurrencyEnum::EUR->value,
             ],
@@ -33,11 +33,12 @@ class ProductFixtures extends Fixture
         foreach ($products as $product) {
             ProductFactory::createOne([
                 'name' => $product['name'],
-                'basePrice' => ProductBasePriceFactory::createOne([
-                        'amount' => $product['amount'],
-                        'currency' => $product['currency'],
-                    ]
-                )
+                'basePrice' => ProductBasePriceFactory::createOne(
+                    [
+                    'amount' => $product['amount'],
+                    'currency' => $product['currency'],
+                ]
+                ),
             ]);
         }
     }

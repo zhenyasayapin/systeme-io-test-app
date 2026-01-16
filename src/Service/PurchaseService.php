@@ -13,11 +13,10 @@ class PurchaseService
 {
     public function __construct(
         private PriceCalculatorService $priceCalculatorService,
-        private ProductRepository      $productRepository,
-        private iterable               $processors,
+        private ProductRepository $productRepository,
+        private iterable $processors,
         private EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     public function purchase(PurchaseDTO $purchaseDto): Purchase
@@ -26,8 +25,8 @@ class PurchaseService
 
         $product = $this->productRepository->find($purchaseDto->product);
 
-        if ($product === null) {
-            throw new \InvalidArgumentException("Product not found");
+        if (null === $product) {
+            throw new \InvalidArgumentException('Product not found');
         }
 
         $paymentProcessor = null;
@@ -41,7 +40,7 @@ class PurchaseService
         }
 
         if (null === $paymentProcessor) {
-            throw new \InvalidArgumentException("No payment processor found");
+            throw new \InvalidArgumentException('No payment processor found');
         }
 
         if ($paymentProcessor->pay($price)) {
@@ -56,7 +55,7 @@ class PurchaseService
 
             return $purchase;
         } else {
-            throw new BadRequestHttpException("Payment processor failed");
+            throw new BadRequestHttpException('Payment processor failed');
         }
     }
 }

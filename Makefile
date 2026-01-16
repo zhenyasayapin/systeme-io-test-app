@@ -46,3 +46,5 @@ phpunit:
 	${DC_EXEC} bin/console d:f:l --env=test --no-interaction > /dev/null 2>&1
 	${DC_EXEC} bin/phpunit
 
+cs-fix:
+	${DC_EXEC} vendor/bin/php-cs-fixer fix

@@ -10,9 +10,8 @@ use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor as Syste
 class StripePaymentProcessor implements PaymentProcessorInterface
 {
     public function __construct(
-        private SystemeIoStripePaymentProcessor $stripePaymentProcessor
-    )
-    {
+        private SystemeIoStripePaymentProcessor $stripePaymentProcessor,
+    ) {
     }
 
     public function supports(PurchaseDTO $purchaseDto): bool

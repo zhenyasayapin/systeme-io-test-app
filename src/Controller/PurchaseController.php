@@ -15,13 +15,13 @@ final class PurchaseController extends AbstractController
 {
     #[Route('/purchase', name: 'app_purchase', methods: ['POST'])]
     public function purchase(
-        Request             $request,
+        Request $request,
         SerializerInterface $serializer,
-        ValidatorInterface  $validator,
-        PurchaseService     $purchaseService,
+        ValidatorInterface $validator,
+        PurchaseService $purchaseService,
     ): JsonResponse {
         if (empty($request->getContent())) {
-            return $this->json("No data provided", 400);
+            return $this->json('No data provided', 400);
         }
 
         $dto = $serializer->deserialize($request->getContent(), PurchaseDTO::class, 'json');

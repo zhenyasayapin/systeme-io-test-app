@@ -17,7 +17,7 @@ class Coupon
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 1, enumType: CouponFormatEnum::class)]
+    #[ORM\Column(type: 'string', length: 1, enumType: CouponFormatEnum::class)]
     private ?CouponFormatEnum $format = null;
 
     #[ORM\Column]

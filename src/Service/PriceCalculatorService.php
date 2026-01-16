@@ -11,9 +11,8 @@ class PriceCalculatorService
 {
     public function __construct(
         private ProductRepository $productRepository,
-        private iterable $handlers
-    )
-    {
+        private iterable $handlers,
+    ) {
     }
 
     public function calculate(CalculatePriceDTO $calculatedPriceDto): PriceDTO

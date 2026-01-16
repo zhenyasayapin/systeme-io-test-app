@@ -12,23 +12,23 @@ class PriceControllerTest extends WebTestCase
 {
     use Factories;
 
-    #[DataProvider("calculatePriceProvider")]
+    #[DataProvider('calculatePriceProvider')]
     public function testSuccessfulPriceCalculation(
-        array   $basePrice,
-        int     $calculatedPrice,
+        array $basePrice,
+        int $calculatedPrice,
         ?string $taxNumber = null,
-        ?string $couponCode = null
+        ?string $couponCode = null,
     ): void {
         self::ensureKernelShutdown();
         $client = static::createClient();
         $product = ProductFactory::createOne([
-            'basePrice' => ProductBasePriceFactory::createOne($basePrice)
+            'basePrice' => ProductBasePriceFactory::createOne($basePrice),
         ]);
 
         $client->jsonRequest('GET', '/calculate-price', [
             'product' => $product->getId(),
             'taxNumber' => $taxNumber,
-            'couponCode' => $couponCode
+            'couponCode' => $couponCode,
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -54,46 +54,46 @@ class PriceControllerTest extends WebTestCase
         yield [
             'basePrice' => [
                 'currency' => 'USD',
-                'amount' => 100
+                'amount' => 100,
             ],
-            'calculatedPrice' => 100
+            'calculatedPrice' => 100,
         ];
 
         yield [
             'basePrice' => [
                 'currency' => 'USD',
-                'amount' => 100
+                'amount' => 100,
             ],
-            'taxNumber' => "FRAB123456789",
-            'calculatedPrice' => 120
+            'taxNumber' => 'FRAB123456789',
+            'calculatedPrice' => 120,
         ];
 
         yield [
             'basePrice' => [
                 'currency' => 'USD',
-                'amount' => 100
+                'amount' => 100,
             ],
-            'couponCode' => "P50",
-            'calculatedPrice' => 50
+            'couponCode' => 'P50',
+            'calculatedPrice' => 50,
         ];
 
         yield [
             'basePrice' => [
                 'currency' => 'USD',
-                'amount' => 100
+                'amount' => 100,
             ],
-            'couponCode' => "F25",
-            'calculatedPrice' => 75
+            'couponCode' => 'F25',
+            'calculatedPrice' => 75,
         ];
 
         yield [
             'basePrice' => [
                 'currency' => 'USD',
-                'amount' => 100
+                'amount' => 100,
             ],
-            'taxNumber' => "FRAB123456789",
-            'couponCode' => "F25",
-            'calculatedPrice' => 95
+            'taxNumber' => 'FRAB123456789',
+            'couponCode' => 'F25',
+            'calculatedPrice' => 95,
         ];
     }
 }

@@ -10,9 +10,8 @@ use Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor as Syste
 class PayPalPaymentProcessor implements PaymentProcessorInterface
 {
     public function __construct(
-        private SystemeIoPayPalPaymentProcessor $paypalPaymentProcessor
-    )
-    {
+        private SystemeIoPayPalPaymentProcessor $paypalPaymentProcessor,
+    ) {
     }
 
     public function supports(PurchaseDTO $purchaseDto): bool
@@ -30,5 +29,4 @@ class PayPalPaymentProcessor implements PaymentProcessorInterface
             return false;
         }
     }
-
 }

@@ -16,37 +16,37 @@ class TaxFixtures extends Fixture
             [
                 'countryName' => 'Germany',
                 'numberPattern' => '^DE[0-9]{9}$',
-                'amount' => 0.19
+                'amount' => 0.19,
             ],
             [
                 'countryName' => 'France',
                 'numberPattern' => '^FR[A-Za-z]{2}[0-9]{9}$',
-                'amount' => 0.20
+                'amount' => 0.20,
             ],
             [
                 'countryName' => 'Italy',
                 'numberPattern' => '^IT[0-9]{11}$',
-                'amount' => 0.22
+                'amount' => 0.22,
             ],
             [
                 'countryName' => 'Greece',
                 'numberPattern' => '^GR[0-9]{9}$',
-                'amount' => 0.24
+                'amount' => 0.24,
             ],
         ];
 
         foreach ($taxes as $tax) {
             $country = CountryFactory::createOne([
-                'name' => $tax['countryName']
+                'name' => $tax['countryName'],
             ]);
 
             TaxNumberFactory::createOne([
                 'tax' => TaxFactory::createOne([
                     'country' => $country,
-                    'amount' => $tax['amount']
+                    'amount' => $tax['amount'],
                 ]),
-                'pattern' => $tax['numberPattern']
+                'pattern' => $tax['numberPattern'],
             ]);
-        };
+        }
     }
 }

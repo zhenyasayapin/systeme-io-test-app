@@ -12,10 +12,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class FixedCouponPriceModifier implements PriceModifierInterface
 {
     public function __construct(
-        private CouponRepository $couponRepository
-    )
-    {
+        private CouponRepository $couponRepository,
+    ) {
     }
+
     public function supports(CalculatePriceDTO $calculatePriceDto): bool
     {
         return null !== $calculatePriceDto->couponCode && str_starts_with($calculatePriceDto->couponCode, CouponFormatEnum::FIXED->value);
