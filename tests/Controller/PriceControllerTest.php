@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Controller;
 
 use App\Factory\ProductBasePriceFactory;
 use App\Factory\ProductFactory;
