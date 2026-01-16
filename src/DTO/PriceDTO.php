@@ -6,6 +6,6 @@ use App\Enum\CurrencyEnum;
 
 class PriceDTO
 {
-    public int $amount;
+    public float $amount;
     public string $currency;
 }
