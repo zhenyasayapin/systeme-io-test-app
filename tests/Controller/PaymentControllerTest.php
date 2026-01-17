@@ -21,9 +21,13 @@ final class PaymentControllerTest extends WebTestCase
 
         $this->assertNotEmpty($response);
 
-        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('data', $response);
+        $data = $response['data'];
+        $this->assertNotEmpty($data);
 
-        $persistedPurchase = PurchaseFactory::repository()->find($response['id']);
+        $this->assertArrayHasKey('id', $data);
+
+        $persistedPurchase = PurchaseFactory::repository()->find($data['id']);
 
         $this->assertNotNull($persistedPurchase);
         $this->assertEquals($json['product'], $persistedPurchase->getProduct()->getId());

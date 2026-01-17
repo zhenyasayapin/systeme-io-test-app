@@ -34,10 +34,15 @@ class PriceControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $response = json_decode($client->getResponse()->getContent(), true);
 
-        $this->assertArrayHasKey('amount', $response);
-        $this->assertArrayHasKey('currency', $response);
-        $this->assertEquals($calculatedPrice, $response['amount']);
-        $this->assertEquals($product->getBasePrice()->getCurrency(), $response['currency']);
+        $this->assertArrayHasKey('data', $response);
+        $data = $response['data'];
+
+        $this->assertNotEmpty($data);
+
+        $this->assertArrayHasKey('amount', $data);
+        $this->assertArrayHasKey('currency', $data);
+        $this->assertEquals($calculatedPrice, $data['amount']);
+        $this->assertEquals($product->getBasePrice()->getCurrency(), $data['currency']);
     }
 
     public function testFailedPriceCalculation(): void
